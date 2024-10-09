@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Conference</title>
+
+    <!-- Agregar la hoja de estilos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #2f4156;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .right {
+            background-color: #567c8d;
+            padding: 10px;
+            text-align: right;
+            color: rgb(253, 253, 253);
+            font-size: 24px;
+        }
+
+
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: block;
+            width: 120px;
+            height: 120px;
+            background-color: #567c8d;
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .button.schedule {
+            background-color: #567c8d;
+        }
+
+        
+
+        .upcoming-meeting {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .meeting-date {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .meeting-image img {
+            width: 200px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #C8D9E6;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .bottom-nav a {
+            text-align: center;
+            color: #2f4156;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .bottom-nav a img {
+            width: 24px;
+            height: 24px;}
+
+        .button i {
+            font-size: 50px; /* Tamaño del ícono */
+            color: white; /* Color del ícono */
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- Header 
+    <div class="header">
+        Video Conference
+    </div>-->
+    <header>
+        <div class="header">
+            LSM para Todos
+        </div>
+        <div class="right">
+        <nav class="menu"></nav>
+          <a href="#">Perfil</a>
+          <a href="#">Preguntas</a>
+        </nav>
+      </div>
+      </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <p>¡HOLA DE NUEVO!</p>
+        <div class="buttons-container">
+            <a href="#" class="button">
+                <i class="fas fa-video"></i> <!-- Ícono de video de Font Awesome -->
+                <p>Nueva llamada</p>
+            </a>
+            <a href="#" class="button schedule">
+                <i class="fas fa-calendar-alt"></i> <!-- Ícono de calendario de Font Awesome -->
+                <p>Calendario</p>
+            </a>
+        </div>
+
+        <div class="upcoming-meeting">
+            <p>Registrar llamada</p>
+            <div class="meeting-date">
+                <img src="https://img.icons8.com/color/48/000000/calendar.png" alt="Calendar Icon"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#">
+            <img src="https://img.icons8.com/color/48/000000/chat.png" alt="Dashboard Icon"/>
+            <p>Chats</p>
+        </a>
+        <a href="#">
+            <img src="https://img.icons8.com/color/48/000000/video-call.png" alt="Meeting Icon"/>
+            <p>Llamadas</p>
+        </a>
+        <a href="#">
+            <img src="https://img.icons8.com/color/48/000000/settings.png" alt="Settings Icon"/>
+            <p>Ajustes</p>
+        </a>
+    </div>
+
+</body>
+</html>
