@@ -191,97 +191,31 @@
             <img src="static/enlaza.jpg" alt="Logo" class="logo">
             <div class="logo-text">Enlaza</div>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Traductor de LSM</a></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Prototipo de detección</h1>
-
-            <!-- Contenedor para el video -->
-            <div class="video-container">
-                <video id="video" autoplay></video>
-                <!-- Aquí se mostrará el video de la cámara -->
+            <h1>Prototipo de Detección de Lengua de Señas</h1>
+            <div class="prediction-text" id="prediction-text">
+                Esperando seña...
             </div>
-
-            <!-- Canvas para dibujar los puntos -->
-            <canvas id="canvas"></canvas>
         </div>
     </section>
-
-    <!-- Características -->
-    <section class="features">
-        <div class="feature-item">
-            <h3>Accesibilidad en Tiempo Real</h3>
-            <p>Traducción en vivo de Lengua de Señas Mexicana.</p>
-        </div>
-        <div class="feature-item">
-            <h3>Innovación e inclusión</h3>
-            <p>Rompiendo barreras de comunicación.</p>
-        </div>
-        <div class="feature-item">
-            <h3>Futura Integración</h3>
-            <p>Integración con plataformas de videollamadas existentes como Zoom y Teams.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Enlaza | Todos los derechos reservados | Prueba</p>
-    </footer>
 
     <script>
-        // Acceder a la cámara
-        const videoElement = document.getElementById("video");
-
-        // Configurar la cámara
-        async function setupCamera() {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" }  // Usar la cámara frontal
-            });
-            videoElement.srcObject = stream;
-        }
-
-        // Iniciar la cámara cuando se carga la página
-        window.onload = setupCamera;
-
         // Conexión con el servidor SSE
         const eventSource = new EventSource('/hand_points');
 
         eventSource.onmessage = function(event) {
-            // Recibimos los puntos en formato JSON
-            const points = JSON.parse(event.data);
+            const data = JSON.parse(event.data);
+            const points = data.points;
+            const prediction = data.prediction;
 
-            // Dibuja los puntos en el canvas
-            drawHandPoints(points);
+            // Actualiza la predicción en la página
+            const predictionText = document.getElementById('prediction-text');
+            predictionText.innerText = `Seña detectada: ${prediction}`;
         };
-
-        // Función para dibujar los puntos de la mano en el canvas
-        function drawHandPoints(points) {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-
-            // Asegurarse de que el canvas tiene el mismo tamaño que el video
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
-
-            // Dibujar puntos de la mano en el lienzo
-            for (let i = 0; i < points.length; i += 3) {
-                const x = points[i] * canvas.width;
-                const y = points[i + 1] * canvas.height;
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fillStyle = 'red';
-                ctx.fill();
-            }
-        }
     </script>
 </body>
 </html>
