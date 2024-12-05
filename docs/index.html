@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Tu Proyecto</title>
     <style>
         /* Estilos generales */
@@ -19,59 +20,19 @@
             box-sizing: border-box;
         }
 
-        /* Importar la fuente local */
-        @font-face {
-            font-family: 'Dancing Script';  /* Nombre que usaremos en CSS */
-            src: url('/static/fonts/DancingScript-Bold.ttf') format('truetype');  /* Ruta a la fuente */
-            font-weight: normal;
-            font-style: normal;
-        }
-
        /* Header */
         header {
             background-color: #ffffff; /* Azul translúcido */
             padding: 20px;
             display: flex;
-            justify-content: space-between;  /* Espacio entre los elementos */
+            justify-content: space-between;
             align-items: center;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Logo */
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-container .logo {
-            width: 60px; /* Ajusta el tamaño de tu logo */
-            height: auto; /* Mantiene la relación de aspecto */
-            margin-right: 10px; /* Espacio entre el logo y el texto */
-        }
-
-        /* Texto de Enlaza con el tipo de letra Dancing Script */
-        .logo-container .logo-text {
-            font-family: 'Dancing Script', cursive; /* Usar la fuente local */
-            font-size: 2.5rem;
-            color: #2f547a;
-            font-weight: 700;
-        }
-
-        /* Menú */
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end; /* Alineación a la derecha */
-        }
-
-        nav ul li {
-            margin-left: 25px;
+            font-family: 'Verdana', sans-serif; /* Cambiar la fuente del header */
         }
 
         nav ul li a {
-            color: #5ca7fa;
+            color: #5ca7fa; /* Cambiar el color del texto del menú */
             text-decoration: none;
             font-size: 1.2rem;
             font-weight: 500;
@@ -81,9 +42,28 @@
         }
 
         nav ul li a:hover {
-            color: #2f547a;
+            color: #2f547a; /* Cambiar el color al pasar el mouse */
+}
+
+        /* Ajusta la ruta del logo dependiendo de la ubicación */
+        .logo-container .logo {
+            width: 60px; /* Ajusta el tamaño de tu logo */
+            max-width: 100%; /* Para asegurarse de que se ajuste al contenedor */
+            height: auto; /* Mantiene la relación de aspecto */
         }
 
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        
         /* Hero Section */
         .hero {
             display: flex;
@@ -91,7 +71,6 @@
             align-items: center;
             text-align: center;
             height: 80vh; /* Ajustamos la altura para que no ocupe toda la pantalla */
-            margin-top: 20px; /* Espacio extra para mover los elementos hacia abajo */
         }
 
         .hero-content h1 {
@@ -99,7 +78,7 @@
             margin: 0;
             font-weight: 700;
             color: white;
-            font-family: Dancing Script; 
+            font-family: Dancing Script Regular; 
         }
 
         .hero-content p {
@@ -111,14 +90,13 @@
 
         /* Video Container */
         .video-container {
-            width: 90%;
-            max-width: 800px;
-            margin: 30px auto 20px auto; /* Añadir margen superior */
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
             text-align: center;
         }
 
-        /* Mostrar la cámara en vivo */
-        #video {
+        .video-container img {
             width: 100%;
             border-radius: 10px;
         }
@@ -179,8 +157,10 @@
     <!-- Header -->
     <header>
         <div class="logo-container">
-            <img src="static/enlaza.jpg" alt="Logo" class="logo">
-            <div class="logo-text">Enlaza</div>
+            <!-- Asegúrate de que la ruta al logo sea correcta -->
+            <img src="static\enlaza_logo.jpg" alt="Logo" class="logo">
+
+
         </div>
         <nav>
             <ul>
@@ -192,11 +172,16 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Prototipo de detección</h1>
+            <h1>Enlaza</h1>
 
             <!-- Contenedor para el video -->
             <div class="video-container">
-                <video id="video" autoplay></video>
+                <img src="{{ url_for('video') }}" alt="Cámara en Vivo">
+            </div>
+
+            <!-- Texto de la predicción -->
+            <div class="prediction-text">
+                <p>Detectando la seña...</p> <!-- Este texto puede actualizarse dinámicamente con JavaScript -->
             </div>
         </div>
     </section>
@@ -221,22 +206,6 @@
     <footer>
         <p>&copy; 2024 Enlaza | Todos los derechos reservados | Prueba</p>
     </footer>
-
-    <script>
-        // Acceder a la cámara
-        const videoElement = document.getElementById("video");
-
-        // Configurar la cámara
-        async function setupCamera() {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" }  // Usar la cámara frontal
-            });
-            videoElement.srcObject = stream;
-        }
-
-        // Iniciar la cámara cuando se carga la página
-        window.onload = setupCamera;
-    </script>
 </body>
 </html>
 
