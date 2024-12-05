@@ -3,7 +3,7 @@ import sys
 import time
 import numpy as np
 import tensorflow as tf
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
 from tensorflow.keras.models import load_model
 import mediapipe as mp
 import cv2
@@ -56,9 +56,21 @@ def generate_frames():
                 for lm in hand_landmarks.landmark:
                     keypoints.extend([lm.x, lm.y, lm.z])
 
-        # Enviar los puntos clave en formato SSE
+        # Predicción
         if keypoints:
-            yield f"data: {json.dumps(keypoints)}\n\n"
+            # Asegúrate de que el modelo esté recibiendo la entrada en el formato correcto
+            keypoints_np = np.array(keypoints).reshape(1, -1)  # Redimensionar según lo que espera el modelo
+            prediction = model.predict(keypoints_np)  # Predicción
+
+            # Obtener el índice de la clase más probable
+            predicted_class = np.argmax(prediction, axis=1)[0]
+            predicted_sign = class_names[predicted_class]
+
+            # Mostrar el signo en la imagen o enviar el resultado
+            cv2.putText(image, f"Predicción: {predicted_sign}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+            # Enviar los puntos clave y la predicción en formato SSE
+            yield f"data: {json.dumps({'keypoints': keypoints, 'prediction': predicted_sign})}\n\n"
 
         time.sleep(1)  # Actualiza los puntos cada segundo (ajusta según sea necesario)
 
@@ -92,7 +104,15 @@ def hand_points():
 
             # Si encontramos puntos de la mano, los enviamos
             if points:
-                yield f"data: {json.dumps(points)}\n\n"
+                # Asegúrate de que el modelo esté recibiendo la entrada en el formato correcto
+                points_np = np.array(points).reshape(1, -1)  # Redimensionar según lo que espera el modelo
+                prediction = model.predict(points_np)  # Predicción
+
+                # Obtener el índice de la clase más probable
+                predicted_class = np.argmax(prediction, axis=1)[0]
+                predicted_sign = class_names[predicted_class]
+
+                yield f"data: {json.dumps({'keypoints': points, 'prediction': predicted_sign})}\n\n"
             
             time.sleep(1)  # Actualiza cada segundo (ajustable)
 
@@ -105,3 +125,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
