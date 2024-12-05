@@ -1,8 +1,9 @@
 pillow
 numpy
-Flask==2.0.1
+Flask==2.3.0  
 gunicorn==20.1.0
 tensorflow==2.12.0
 mediapipe==0.10.18
-opencv-python==4.5.1
+opencv-python==4.8.1.78
+
 
