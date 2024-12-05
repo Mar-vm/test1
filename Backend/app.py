@@ -10,7 +10,7 @@ import cv2
 import json
 
 # Ruta al modelo
-model_path = os.path.join(os.getcwd(), 'Backend', 'modelo.h5')  # Ruta local cuando el script no está empaquetado
+model_path = os.path.join(os.getcwd(), 'Backend', 'your_model.tflite')  # Ruta local cuando el script no está empaquetado
 
 # Inicializar Flask
 app = Flask(__name__)
