@@ -173,6 +173,15 @@
             padding: 20px;
             font-size: 1rem;
         }
+
+        /* Estilo para el canvas */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;  /* Asegura que los puntos se dibujen sobre el video */
+            pointer-events: none;  /* Para que no interfiera con la interacción del video */
+        }
     </style>
 </head>
 <body>
@@ -197,10 +206,11 @@
             <!-- Contenedor para el video -->
             <div class="video-container">
                 <video id="video" autoplay></video>
-
-                <!-- Lienzo para los puntos clave -->
-                <canvas id="handCanvas" width="640" height="480" style="position: absolute; top: 0; left: 0;"></canvas>
+                <!-- Aquí se mostrará el video de la cámara -->
             </div>
+
+            <!-- Canvas para dibujar los puntos -->
+            <canvas id="canvas"></canvas>
         </div>
     </section>
 
@@ -228,8 +238,6 @@
     <script>
         // Acceder a la cámara
         const videoElement = document.getElementById("video");
-        const canvas = document.getElementById("handCanvas");
-        const ctx = canvas.getContext("2d");
 
         // Configurar la cámara
         async function setupCamera() {
@@ -242,30 +250,39 @@
         // Iniciar la cámara cuando se carga la página
         window.onload = setupCamera;
 
-        // Recibir puntos clave a través de SSE y dibujarlos
-        const eventSource = new EventSource("/hand_points");
+        // Conexión con el servidor SSE
+        const eventSource = new EventSource('/hand_points');
 
         eventSource.onmessage = function(event) {
-            const keypoints = JSON.parse(event.data);  // Los puntos son un array JSON
+            // Recibimos los puntos en formato JSON
+            const points = JSON.parse(event.data);
 
-            // Limpiar el lienzo antes de dibujar los nuevos puntos
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Dibuja los puntos en el canvas
+            drawHandPoints(points);
+        };
 
-            // Dibuja los puntos en el lienzo
-            for (let i = 0; i < keypoints.length; i += 3) {
-                const x = keypoints[i] * canvas.width;  // Convertir a píxeles
-                const y = keypoints[i + 1] * canvas.height;  // Convertir a píxeles
+        // Función para dibujar los puntos de la mano en el canvas
+        function drawHandPoints(points) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
 
+            // Asegurarse de que el canvas tiene el mismo tamaño que el video
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
+
+            // Dibujar puntos de la mano en el lienzo
+            for (let i = 0; i < points.length; i += 3) {
+                const x = points[i] * canvas.width;
+                const y = points[i + 1] * canvas.height;
                 ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);  // Dibuja un círculo en el punto
-                ctx.fillStyle = "red";  // Color de los puntos
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = 'red';
                 ctx.fill();
             }
-        };
-
-        eventSource.onerror = function() {
-            console.error("Error al recibir los datos de puntos clave.");
-        };
+        }
     </script>
 </body>
 </html>
+
